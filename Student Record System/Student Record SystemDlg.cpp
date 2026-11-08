@@ -187,6 +187,24 @@ void CStudentRecordSystemDlg::OnBnClickedButton1()
 		return;
 	}
 
+	// GPA 0 se 4 ke beech ho
+	double gpa = _tstof(m_gpa);
+	if (gpa <= 0.0 || gpa > 4.0)
+	{
+		AfxMessageBox(_T("GPA must be a number between 0 and 4."));
+		return;
+	}
+
+	// Roll Number pehle se na ho
+	LoadRecords();
+	for (const Student& s : m_records)
+	{
+		if (s.roll == m_roll)
+		{
+			AfxMessageBox(_T("This roll number already exists."));
+			return;
+		}
+	}
 	std::ofstream file("records.txt", std::ios::app);
 	if (!file.is_open())
 	{
